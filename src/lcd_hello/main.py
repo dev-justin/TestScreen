@@ -5,11 +5,19 @@ import time
 def main():
     # Initialize pygame
     pygame.init()
-
-    # Set up the display
-    # The Waveshare 5inch DSI LCD has a resolution of 800x480
-    os.environ['SDL_FBDEV'] = '/dev/fb0'
-    screen = pygame.display.set_mode((800, 480))
+    
+    # Set display environment variables
+    os.environ['SDL_VIDEODRIVER'] = 'kms'
+    os.environ['DISPLAY'] = ':0'
+    
+    # Initialize the display
+    pygame.display.init()
+    
+    # Get the current display info
+    display_info = pygame.display.Info()
+    
+    # Set up the display at full screen
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption('Hello Display')
 
     # Set up colors
@@ -21,13 +29,13 @@ def main():
 
     try:
         # Try to use font rendering
-        font = pygame.font.Font(None, 74)  # None uses default font, 74 is the size
+        font = pygame.font.Font(None, 74)
         text = font.render('Hello', True, WHITE)
     except (NotImplementedError, ImportError):
         # Fallback: Create a simple surface with text
         text = pygame.Surface((200, 50))
         text.fill(BLACK)
-        pygame.draw.line(text, WHITE, (0, 25), (200, 25), 5)  # Draw "Hello" as a line
+        pygame.draw.line(text, WHITE, (0, 25), (200, 25), 5)
         pygame.draw.line(text, WHITE, (0, 0), (0, 50), 5)
         pygame.draw.line(text, WHITE, (100, 0), (100, 50), 5)
         pygame.draw.line(text, WHITE, (200, 0), (200, 50), 5)
@@ -36,7 +44,7 @@ def main():
     text_rect = text.get_rect()
 
     # Center the text on screen
-    text_rect.center = (800 // 2, 480 // 2)
+    text_rect.center = (screen.get_width() // 2, screen.get_height() // 2)
 
     # Draw the text on the screen
     screen.blit(text, text_rect)
