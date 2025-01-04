@@ -1,0 +1,13 @@
+[project]
+name = "lcd-hello"
+version = "0.1.0"
+description = "Simple Hello display for Waveshare 5inch DSI LCD"
+requires-python = ">=3.7"
+dependencies = [
+    "pygame",
+    "RPi.GPIO"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build" 
